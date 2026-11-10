@@ -1,6 +1,6 @@
 [package]
 name = "valheim-server-mod-manager"
-version = "0.2.0"
+version = "0.2.1-pre.0"
 edition = "2024"
 description = "Mod manager for Valheim dedicated servers, following a Gale profile sync"
 authors = ["Endoze <endoze@endozemedia.com>", "LinkTheDot <CirnoStrongest9909@hotmail.com>", "Dwarf1er"]
@@ -35,7 +35,11 @@ indicatif = "0.18"
 # Used only for Hexium's manifest fetch (see `sources.rs`), which bypasses
 # `ThunderstoreClient::get_manifest()` because Hexium's live index never sends
 # the `Last-Modified` header that method requires.
-reqwest = { version = "0.13", default-features = false }
+# `gzip` makes that client send `Accept-Encoding: gzip` and decode the reply.
+# Hexium's index is ~16 MB uncompressed and its server cuts the stream off
+# mid-response after ~45 s, so the plain fetch is truncated (invalid JSON);
+# gzipped it is ~1.4 MB and arrives in a few seconds.
+reqwest = { version = "0.13", default-features = false, features = ["gzip"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.11"

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This is a hard fork of [Endoze/valheim-mod-manager](https://github.com/Endoze/valheim-mod-manager), aimed at Valheim dedicated servers running in the [community Docker image](https://github.com/community-valheim-tools/valheim-server-docker). The upstream history lives in that repository and in this one's git log; versioning starts fresh here. See [Why this fork](README.md#why-this-fork) for the reasoning.
 
+## [0.2.1-pre.0] - 2026-11-10
+
+### Fixed
+
+- Hexium's package index is now requested with gzip (reqwest `gzip` feature). Uncompressed it is ~16 MB and Hexium's server cuts the stream off after ~45 s, so the plain fetch came back truncated and `vsmm sync` failed with `error decoding response body`. Gzipped it is ~1.4 MB and arrives in a few seconds.
+
 ## [0.2.0] - 2026-10-16
 
 ### Added
